@@ -5,9 +5,16 @@ export const Container = styled.div`
     text-align: left;
     background: url('/images/header.jpg') center/cover no-repeat;
     position: relative;
-    z-index: 1; /* Garante que o Header não fique acima do Resume */
-`;
+    z-index: 1; 
+    width: 100vw;
 
+
+
+    @media (max-width: 768px) {
+        height: 35vh; 
+        width: 100vw;
+    }
+`;
 
 export const Title = styled.h1`
     font-family: 'Outfit', sans-serif;
@@ -17,6 +24,13 @@ export const Title = styled.h1`
     position: absolute;
     left: 85px;
     top: 120px;
+
+    @media (max-width: 768px) {
+        font-size: 20px; 
+        left: 20px; 
+        top: 80px;
+        text-align: center;
+    }
 `;
 
 export const ThemeButton = styled.button`
@@ -35,7 +49,7 @@ export const ThemeButton = styled.button`
     left: 85px;
     transition: background-color 0.3s ease, transform 0.2s ease;
 
-       .circle {
+    .circle {
         width: 28px;
         height: 28px;
         border-radius: 50%;
@@ -47,4 +61,22 @@ export const ThemeButton = styled.button`
         transition: color 0.3s ease;
     }
 
+    @media (max-width: 768px) {
+        left: 20px;
+        bottom: 25vh; 
+        width: 50px;
+        height: 25px;
+
+        .circle {
+            width: 15px;
+            height: 15px;
+        }
+
+        .icon {
+            width: 15px;
+            height: 15px;
+        }
+
+    }
 `;
+

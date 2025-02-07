@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { 
     PieChart, Pie, Cell, Tooltip, Legend, 
     LineChart, Line, XAxis, YAxis, CartesianGrid, 
@@ -7,6 +7,30 @@ import {
 import * as C from "./styles";
 
 const Charts = ({ transactionsList }) => {
+    const [chartSize, setChartSize] = useState({
+        width: window.innerWidth < 768 ? window.innerWidth * 0.5 : window.innerWidth * 0.6, 
+        height: window.innerHeight * 0.4, 
+        outerRadius: window.innerWidth < 768 ? window.innerWidth * 0.9 : window.innerWidth * 0.3,
+        innerRadius: window.innerWidth * 0.05, 
+        barSize: window.innerWidth * 0.03, 
+    });
+
+    useEffect(() => {
+        const handleResize = () => {
+            setChartSize({
+                width: window.innerWidth < 768 ? window.innerWidth * 0.7 : window.innerWidth * 0.6,
+                height: window.innerHeight * 0.4,
+                outerRadius: window.innerWidth < 768 ? window.innerWidth * 0.12 : window.innerWidth * 0.065,
+                innerRadius: window.innerWidth < 768 ? window.innerWidth * 0.05 : window.innerWidth * 0.03,
+                barSize: window.innerWidth * 0.03,
+            });
+        };
+
+        window.addEventListener("resize", handleResize);
+        handleResize(); 
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
     const expenseTransactions = transactionsList.filter(transaction => transaction.expense);
 
     const categories = expenseTransactions.reduce((acc, transaction) => {
@@ -31,50 +55,70 @@ const Charts = ({ transactionsList }) => {
 
     return (
         <C.Container>
-            <C.ChartBox style={{ display: "flex", alignItems: "center" }}>
+            <C.ChartBox>
                 <h3>Maiores despesas em porcentagem</h3>
-                <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                    <PieChart width={400} height={200}>
-                        <Pie 
-                            data={pieData} 
-                            dataKey="value" 
-                            nameKey="name" 
-                            cx="50%" 
-                            cy="50%" 
-                            outerRadius={80} 
-                            innerRadius={40} 
-                            fill="#8884d8"
-                        >
-                            {pieData.map((_, index) => (
-                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                            ))}
-                        </Pie>
-                        <Tooltip />
-                        <Legend layout="vertical" align="right" verticalAlign="middle" />
-                    </PieChart>
-                </div>
+                <PieChart width={chartSize.width} height={chartSize.height}>
+                    <Pie 
+                        data={pieData} 
+                        dataKey="value" 
+                        nameKey="name" 
+                        cx="50%" 
+                        cy="50%" 
+                        outerRadius={chartSize.outerRadius} 
+                        innerRadius={chartSize.innerRadius} 
+                        fill="#8884d8"
+                    >
+                        {pieData.map((_, index) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                    </Pie>
+                    <Tooltip />
+                    <Legend layout="horizontal" 
+                            align="center" 
+                            verticalAlign="bottom" 
+                            iconSize={chartSize.width/ 60}  
+                            wrapperStyle={{
+                                fontSize: `${chartSize.width < 768 ? chartSize.width / 20 : chartSize.width / 50}`, 
+                                marginTop: "10px"
+                        }}/>
+                </PieChart>
             </C.ChartBox>
-
 
             <C.ChartBox>
                 <h3>Evolução do saldo</h3>
-                <LineChart width={380} height={220} data={lineData}>
-                    <XAxis dataKey="date" />
-                    <YAxis />
+                <LineChart
+                    width={chartSize.width < 362 ? chartSize.width : chartSize.width / 2}
+                    height={chartSize.height}
+                    data={lineData}
+                    style={{ margin: "auto" }}
+                >
+                    <XAxis 
+                        dataKey="date" 
+                        tick={{ fontSize: "2vh" }}
+                    />
+                    <YAxis 
+                        tick={{ fontSize: "2vh" }} 
+                    />
                     <CartesianGrid strokeDasharray="3 3" />
-                    <Line type="monotone" dataKey="saldo" stroke="#46D1CD" strokeWidth={3} dot={{ r: 5 }} />
+                    <Line 
+                        type="monotone" 
+                        dataKey="saldo" 
+                        stroke="#46D1CD" 
+                        strokeWidth={chartSize.width / 300} 
+                        dot={{ r: chartSize.width / 150 }} 
+                    />
                     <Tooltip />
                 </LineChart>
             </C.ChartBox>
 
-            
             <C.ChartBox fullWidth>
                 <h3>Despesas por categoria</h3>
-                <BarChart width={700} height={250} data={barData}>
-                    <XAxis dataKey="category" />
-                    <YAxis />
+                <BarChart width={chartSize.width} height={chartSize.height} data={barData}>
+                    <XAxis dataKey="category" 
+                            tick={{ fontSize: `${chartSize.width < 568 ? 12 : 16}` }}/>
+                    <YAxis tick={{ fontSize: "2vh" }}/>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <Bar dataKey="amount" fill="#3E8987" barSize={40} />
+                    <Bar dataKey="amount" fill="#3E8987" barSize={chartSize.barSize} />
                     <Tooltip />
                 </BarChart>
             </C.ChartBox>

@@ -66,7 +66,7 @@ const Form = ({handleAdd, transactionsList, setTransactionsList}) => {
 
                 <C.RadioGroupWrapper>
                 <C.RadioGroup>
-                    <C.Input 
+                    <C.Input
                         type='radio'
                         id='rIncome'
                         defaultChecked

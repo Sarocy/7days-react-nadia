@@ -8,10 +8,10 @@ const Header = ({ isDarkMode, toggleTheme }) => (
         {isDarkMode 
             ? <>
                 <span className="circle" />
-                <LuMoon size={30} />
+                <LuMoon size={30} className="icon" />
               </>
             : <>
-                <LuSun size={30} />
+                <LuSun size={30} className="icon"/>
                 <span className="circle" />
               </>
         }

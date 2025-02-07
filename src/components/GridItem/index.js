@@ -1,28 +1,26 @@
 import React from "react";
-import { FaRegArrowAltCircleUp,
-        FaRegArrowAltCircleDown,
-        FaTrash
- } from "react-icons/fa";
- import * as C from "./styles"
+import { FaRegArrowAltCircleUp, FaRegArrowAltCircleDown, FaTrash } from "react-icons/fa";
+import * as C from "./styles";
 
-const GridItem = ({item, onDelete}) => {
-    return(
+const GridItem = ({ item, onDelete }) => {
+    return (
         <C.Tr>
-            <C.Td>{item.date}</C.Td>
-            <C.Td>{item.desc}</C.Td>
-            <C.Td>{item.amount}</C.Td>
-            <C.Td alignCenter>
+            <C.Td data-label="Data">{item.date}</C.Td>
+            <C.Td data-label="Categoria">{item.desc}</C.Td>
+            <C.Td data-label="Valor">R$ {item.amount}</C.Td>
+            <C.Td data-label="Tipo" alignCenter>
                 {item.expense ? (
-                    <FaRegArrowAltCircleDown color="red " />
+                    <FaRegArrowAltCircleDown color="red" />
                 ) : (
                     <FaRegArrowAltCircleUp color="green" />
                 )}
             </C.Td>
-            <C.Td alignCenter>
+            <C.Td data-label="Ações" alignCenter>
                 <FaTrash onClick={() => onDelete(item.id)} />
             </C.Td>
         </C.Tr>
-    ); 
+    );
 };
 
 export default GridItem;
+
