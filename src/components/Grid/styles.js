@@ -5,7 +5,6 @@ export const Table = styled.table`
     background-color: #fff;
     padding: 20px;
     border-radius: 20px;
-    max-width: 1120px;
     margin: 10px auto;
     overflow-x: auto; 
 

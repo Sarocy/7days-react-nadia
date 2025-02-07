@@ -23,12 +23,14 @@ export const Title = styled.h1`
     color: #fff;
     position: absolute;
     left: 85px;
-    top: 120px;
+    top: 20vh;
+
+
 
     @media (max-width: 768px) {
         font-size: 20px; 
         left: 20px; 
-        top: 80px;
+        top: 15vh;
         text-align: center;
     }
 `;
@@ -61,6 +63,8 @@ export const ThemeButton = styled.button`
         transition: color 0.3s ease;
     }
 
+  
+
     @media (max-width: 768px) {
         left: 20px;
         bottom: 25vh; 
@@ -76,6 +80,7 @@ export const ThemeButton = styled.button`
             width: 15px;
             height: 15px;
         }
+        
 
     }
 `;
